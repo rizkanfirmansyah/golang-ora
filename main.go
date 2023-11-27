@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"database/sql"
 
@@ -46,15 +47,15 @@ type SampleData struct {
 	Jenis                  int            `db:"JENIS"`
 	Top                    string         `db:"TOP"`
 	SukuBunga              string         `db:"SUKUBUNGA"`
-	TgRealis               sql.NullString `db:"TG_REALIS"`
-	TgJTempoKontrak        sql.NullString `db:"TG_JTEMPO_KONTRAK"`
-	TgAngsur               sql.NullString `db:"TG_ANGSUR"`
-	TgFixAng               sql.NullString `db:"TG_FIXANG"`
+	TgRealis               string `db:"TG_REALIS"`
+	TgJTempoKontrak        string `db:"TG_JTEMPO_KONTRAK"`
+	TgAngsur               string `db:"TG_ANGSUR"`
+	TgFixAng               string `db:"TG_FIXANG"`
 	Pekerjaan              string         `db:"PEKERJAAN"`
 	KTP                    string         `db:"KTP"`
 	NamaSurveyor           string         `db:"NAMA_SURVEYOR"`
 	NamaKolektor           string         `db:"NAMA_KOLEKTOR"`
-	NominalGross           sql.NullString `db:"NOMINAL_GROSS"`
+	NominalGross           string `db:"NOMINAL_GROSS"`
 	Admin                  sql.NullString `db:"ADMIN"`
 	Asuransi               sql.NullString `db:"ASURANSI"`
 	NominalPencairanNett   sql.NullString `db:"NOMINAL_PENCAIRAN_NETT"`
@@ -66,7 +67,7 @@ type SampleData struct {
 	SldPokok               sql.NullString `db:"SLD_POKOK"`
 	SldBunga               sql.NullString `db:"SLD_BUNGA"`
 	StatusKontrak          string         `db:"STATUS_KONTRAK"`
-	TglLunas               sql.NullString `db:"TGLUNAS"`
+	TgLunas               string `db:"TGLUNAS"`
 	StatusOrder            string         `db:"STATUS_ORDER"`
 	JenisObj               string         `db:"JENIS_OBJ"`
 	MerkObj                string         `db:"MERK_OBJ"`
@@ -112,15 +113,15 @@ type SampleData struct {
 	TahunPMK               sql.NullString `db:"TAHUN_PMK"`
 	BulanRealisasi         string         `db:"BULAN_REALISASI"`
 	TahunPMKBulanRealisasi sql.NullString `db:"TAHUN_PMK_BULAN_REALISASI"`
-	TglJT                  sql.NullString `db:"TGL_JT"`
+	TglJT                  string `db:"TGL_JT"`
 	HistorisNonBayar       string         `db:"HISTORIS_NON_BAYAR"`
 	Status                 string         `db:"STATUS"`
-	OutstandingPrincipal   sql.NullString `db:"OUTSTANDING_PRICIPAL"`
-	TgAngsurTertunggak     sql.NullString `db:"TG_ANGSUR_TERTUNGGAK"`
-	TgRealisInputManual    sql.NullString `db:"TG_REALIS_INPUT_MANUAL"`
+	OutstandingPrincipal   string `db:"OUTSTANDING_PRICIPAL"`
+	TgAngsurTertunggak     string `db:"TG_ANGSUR_TERTUNGGAK"`
+	TgRealisInputManual    string `db:"TG_REALIS_INPUT_MANUAL"`
 	TypeAngsuran           string         `db:"TYPE_ANGSURAN"`
 	CreatedBy              string         `db:"CREATED_BY"`
-	CreatedTimestamp       sql.NullString `db:"CREATED_TIMESTAMP"`
+	CreatedTimestamp       string `db:"CREATED_TIMESTAMP"`
 	ByrDenda               string         `db:"BYR_DENDA"`
 	SldDenda               string         `db:"SLD_DENDA"`
 	SourceOrder            string         `db:"SOURCE_ORDER"`
@@ -143,37 +144,37 @@ func main() {
 	// username := "usersql"
 	// password := "password"
 
-	// username := "anicos"
-	// password := "anicos"
-	// host := "192.168.51.173"
-	// // port := 1521
-	// serviceName := "prdfast"
+	username := "anicos"
+	password := "anicos"
+	host := "192.168.51.173"
+	// port := 1521
+	serviceName := "prdfast"
 
-	// db, err := sqlx.Connect("godror", username+"/"+password+"@"+host+":1521/"+serviceName)
-	// if err != nil {
-	// 	log.Fatalf("Error opening database connection: %v", err)
-	// }
-	// defer db.Close()
-
-	// connection string
-	psqlconn1 := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-
-	// open database
-	db, err := sqlx.Open("postgres", psqlconn1)
+	db, err := sqlx.Connect("godror", username+"/"+password+"@"+host+":1521/"+serviceName)
 	if err != nil {
-		panic(err)
+		log.Fatalf("Error opening database connection: %v", err)
 	}
-
-	// close database
 	defer db.Close()
 
-	// Test the connection
-	err = db.Ping()
-	if err != nil {
-		log.Fatalf("Error pinging the database: %v", err)
-	}
+	// connection string
+	// psqlconn1 := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
-	log.Println("Successfully connected to the Oracle database!")
+	// open database
+	// db, err := sqlx.Open("postgres", psqlconn1)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// // close database
+	// defer db.Close()
+
+	// // Test the connection
+	// err = db.Ping()
+	// if err != nil {
+	// 	log.Fatalf("Error pinging the database: %v", err)
+	// }
+
+	// log.Println("Successfully connected to the Oracle database!")
 
 	// connection string
 	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname2)
@@ -210,26 +211,36 @@ func main() {
 		err = rows.StructScan(&sampleData)
 		if err != nil {
 			log.Fatalln(err)
-		}
+		} 	
 
 		fmt.Printf("row[ID]: %d row[Tanggal]: %d \n", i, sampleData.Umur)
 		// // insertStmt := `INSERT INTO public.test ("id", "text") VALUES (1, "awda")`
 		// _, error := dbpsql.Exec(`INSERT INTO public.test (id, name) VALUES (:1, :2);`, todo.Id, todo.Name)
 		//_, error := dbpsql.Exec(`INSERT INTO public.data_pkd(
 		// periode, _ := time.Parse(time.RFC3339, sampleData.DatePeriode)
-		// periodeString := periode.Format("2006-01-02")
+		datePeriode, _ := convertToPostgreSQLDate(sampleData.DatePeriode)
+		tanggalLahir, _ := convertToPostgreSQLDate(sampleData.TanggalLahir)
+		tgRealis, _ := convertToPostgreSQLDate(sampleData.TgRealis)
+		tgJTempoKontrak, _ := convertToPostgreSQLDate(sampleData.TgJTempoKontrak)
+		tgAngsur, _ := convertToPostgreSQLDate(sampleData.TgAngsur)
+		tgFixAng, _ := convertToPostgreSQLDate(sampleData.TgFixAng)
+		tgLunas, _ := convertToPostgreSQLDate(sampleData.TgLunas)
+		tglJT, _ := convertToPostgreSQLDate(sampleData.TglJT)
+		historisNonBayar, _ := convertToPostgreSQLDate(sampleData.HistorisNonBayar)
+		tgAngsurTertunggak, _ := convertToPostgreSQLDate(sampleData.TgAngsurTertunggak)
+		tgRealisInputManual, _ := convertToPostgreSQLDate(sampleData.TgRealisInputManual)
 		_, error := dbpsql.Exec(`INSERT INTO "dataPKD".data_3("DATEPERIODE", "OFFICE_CODE", "COY_ID", "REGIONAL_ID", "NAMA_CABANG", "CUST_ID", "CONTRACT_NO", "NAMA", "TANGGAL_LAHIR", "UMUR", "ALAMAT_KTP", "ALAMAT_TAGIH", "NO_FIX_PHONE", "NO_HANDPHONE", "ALAMAT_EMERGENCY", "NO_FIX_PHONE_EMERGENCY", "NO_HP_EMERGENCY", "ALAMAT_OFFICE", "NO_TELP_OFFICE", "NO_ZIP_CODE", "SUB_ZIP_CODE", "NAMA_KELURAHAN", "NAMA_KECAMATAN", "NAMA_KABUPATEN", "NAMA_PROVINSI", "JENIS", "TOP", "SUKUBUNGA", "TG_REALIS", "TG_JTEMPO_KONTRAK", "TG_ANGSUR", "TG_FIXANG", "PEKERJAAN", "KTP", "NAMA_SURVEYOR", "NAMA_KOLEKTOR", "NOMINAL_GROSS", "ADMIN", "ASURANSI", "NOMINAL_PENCAIRAN_NETT", "ANGSURAN_PER_BULAN", "ANG_POKOK", "ANG_BUNGA", "BYR_POKOK", "BYR_BUNGA", "SLD_POKOK", "SLD_BUNGA", "STATUS_KONTRAK", "TGLUNAS", "STATUS_ORDER", "JENIS_OBJ", "MERK_OBJ", "TYPE_OBJ", "NO_MESIN", "NO_RANGKA", "TAHUN", "WARNA", "NO_POLISI", "NO_BPKB", "NAMA_BPKB", "HARGA_PASAR_KENDARAAN", "PERSENTASE_PLAFON", "ANGS_TERAKHIR_BAYAR_KE", "ANGS_SHRNYA_BLN_INI", "JML_ANGS_TERTUNGGAK", "OD_HARI_INI", "KOL_HARI_INI", "CYCLE_HARI_INI", "OVER_JT_HARI_INI", "STATUS_NPL_HARI_INI", "STATUS_CNPL_HARI_INI", "AMBC_DENDA", "AMBC_POKOK", "AMBC_BUNGA", "TOTAL_KEWAJIBAN", "AC_DENDA", "AC_POKOK", "AC_BUNGA", "TOTAL_AC", "OD_AKHIR_BULAN", "KOL_AKHIR_BULAN", "CYCLE_AKHIR_BULAN", "OVER_JT_PER_AKHIR_BLN", "STS_NPL_CLSNG_AKHR_BLN", "STS_CNPL_CLSNG_AKHR_BLN", "OD_AWAL_BULAN", "KOL_AWAL_BULAN", "CYCLE_AWAL_BULAN", "OVER_JT_PER_AWAL_BULAN", "STATUS_NPL_AWAL_BULAN", "STATUS_CNPL_AWAL_BULAN", "TAHUN_PMK", "BULAN_REALISASI", "TAHUN_PMK_BULAN_REALISASI", "TGL_JT", "HISTORIS_NON_BAYAR", "STATUS", "OUTSTANDING_PRICIPAL", "TG_ANGSUR_TERTUNGGAK", "TG_REALIS_INPUT_MANUAL", "TYPE_ANGSURAN", "CREATED_BY", "CREATED_TIMESTAMP", "BYR_DENDA", "SLD_DENDA", "SOURCE_ORDER", "PRDMONTH")
-										VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $50, $51, $52, $53, $54, $55, $56, $57, $58, $59, $60, $61, $62, $63, $64, $65, $66, $67, $68, $69, $70, $71, $72, $73, $74, $75, $76, $77, $78, $79, $80, $81, $82, $83, $84, $85, $86, $87, $88, $89, $90, $91, $92, $93, $94, $95, $96, $97, $98, $99, $100, $101, $102, $103, $104, $105, $106, $107);`, sampleData.DatePeriode, sampleData.OfficeCode, sampleData.CoyID, sampleData.RegionalID, sampleData.NamaCabang,
-			sampleData.CustID, sampleData.ContractNo, sampleData.Nama, sampleData.TanggalLahir, sampleData.Umur,
+										VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $50, $51, $52, $53, $54, $55, $56, $57, $58, $59, $60, $61, $62, $63, $64, $65, $66, $67, $68, $69, $70, $71, $72, $73, $74, $75, $76, $77, $78, $79, $80, $81, $82, $83, $84, $85, $86, $87, $88, $89, $90, $91, $92, $93, $94, $95, $96, $97, $98, $99, $100, $101, $102, $103, $104, $105, $106, $107);`, datePeriode, sampleData.OfficeCode, sampleData.CoyID, sampleData.RegionalID, sampleData.NamaCabang,
+			sampleData.CustID, sampleData.ContractNo, sampleData.Nama, tanggalLahir, sampleData.Umur,
 			sampleData.AlamatKTP, sampleData.AlamatTagih, sampleData.NoFixPhone, sampleData.NoHandphone,
 			sampleData.AlamatEmergency, sampleData.NoFixPhoneEmergency, sampleData.NoHPEmergency, sampleData.AlamatOffice,
 			sampleData.NoTelpOffice, sampleData.NoZipCode, sampleData.SubZipCode, sampleData.NamaKelurahan,
 			sampleData.NamaKecamatan, sampleData.NamaKabupaten, sampleData.NamaProvinsi, sampleData.Jenis, sampleData.Top,
-			sampleData.SukuBunga, sampleData.TgRealis, sampleData.TgJTempoKontrak, sampleData.TgAngsur, sampleData.TgFixAng,
+			sampleData.SukuBunga, tgRealis, tgJTempoKontrak, tgAngsur, tgFixAng,
 			sampleData.Pekerjaan, sampleData.KTP, sampleData.NamaSurveyor, sampleData.NamaKolektor, sampleData.NominalGross,
 			sampleData.Admin, sampleData.Asuransi, sampleData.NominalPencairanNett, sampleData.AngsuranPerBulan,
 			sampleData.AngPokok, sampleData.AngBunga, sampleData.ByrPokok, sampleData.ByrBunga, sampleData.SldPokok,
-			sampleData.SldBunga, sampleData.StatusKontrak, sampleData.TglLunas, sampleData.StatusOrder, sampleData.JenisObj,
+			sampleData.SldBunga, sampleData.StatusKontrak, tgLunas, sampleData.StatusOrder, sampleData.JenisObj,
 			sampleData.MerkObj, sampleData.TypeObj, sampleData.NoMesin, sampleData.NoRangka, sampleData.Tahun, sampleData.Warna,
 			sampleData.NoPolisi, sampleData.NoBPKB, sampleData.NamaBPKB, sampleData.HargaPasarKendaraan, sampleData.PersentasePlafon,
 			sampleData.AngsTerakhirBayarKe, sampleData.AngsShrnyaBlnIni, sampleData.JmlAngsTertunggak, sampleData.ODHariIni,
@@ -240,8 +251,8 @@ func main() {
 			sampleData.StsNPLClsngAkhrBln, sampleData.StsCNPLClsngAkhrBln, sampleData.ODAwalBulan, sampleData.KolAwalBulan,
 			sampleData.CycleAwalBulan, sampleData.OverJtPerAwalBulan, sampleData.StatusNPLAwalBulan,
 			sampleData.StatusCNPLAwalBulan, sampleData.TahunPMK, sampleData.BulanRealisasi, sampleData.TahunPMKBulanRealisasi,
-			sampleData.TglJT, sampleData.HistorisNonBayar, sampleData.Status, sampleData.OutstandingPrincipal,
-			sampleData.TgAngsurTertunggak, sampleData.TgRealisInputManual, sampleData.TypeAngsuran, sampleData.CreatedBy,
+			tglJT, historisNonBayar, sampleData.Status, sampleData.OutstandingPrincipal,
+			tgAngsurTertunggak, tgRealisInputManual, sampleData.TypeAngsuran, sampleData.CreatedBy,
 			sampleData.CreatedTimestamp, sampleData.ByrDenda, sampleData.SldDenda, sampleData.SourceOrder, sampleData.PrdMonth)
 		if error != nil {
 			log.Fatalf("error insert: %v", error)
@@ -381,4 +392,17 @@ func createTable(dbpsql *sqlx.DB, table string) {
 	} else {
 		fmt.Println("Table already exists.")
 	}
+}
+
+func convertToPostgreSQLDate(inputTimestamp string) (string, error) {
+	// Parse the input timestamp string
+	parsedTime, err := time.Parse(time.RFC3339, inputTimestamp)
+	if err != nil {
+		return "", fmt.Errorf("error parsing timestamp: %v", err)
+	}
+
+	// Format the date according to PostgreSQL date format
+	postgreSQLDate := parsedTime.Format("2006-01-02")
+
+	return postgreSQLDate, nil
 }
