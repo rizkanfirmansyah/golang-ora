@@ -67,7 +67,7 @@ type SampleData struct {
 	SldPokok               sql.NullString `db:"SLD_POKOK"`
 	SldBunga               sql.NullString `db:"SLD_BUNGA"`
 	StatusKontrak          string         `db:"STATUS_KONTRAK"`
-	TgLunas               string `db:"TGLUNAS"`
+	TgLunas                sql.NullString `db:"TGLUNAS"`
 	StatusOrder            string         `db:"STATUS_ORDER"`
 	JenisObj               string         `db:"JENIS_OBJ"`
 	MerkObj                string         `db:"MERK_OBJ"`
@@ -224,7 +224,10 @@ func main() {
 		tgJTempoKontrak, _ := convertToPostgreSQLDate(sampleData.TgJTempoKontrak)
 		tgAngsur, _ := convertToPostgreSQLDate(sampleData.TgAngsur)
 		tgFixAng, _ := convertToPostgreSQLDate(sampleData.TgFixAng)
-		tgLunas, _ := convertToPostgreSQLDate(sampleData.TgLunas)
+		tgLunas, _ := convertToPostgreSQLDate(sampleData.TgLunas.String)
+		if tgLunas == "" {
+			tgLunas = "2023-11-27"
+		}
 		tglJT, _ := convertToPostgreSQLDate(sampleData.TglJT)
 		historisNonBayar, _ := convertToPostgreSQLDate(sampleData.HistorisNonBayar)
 		tgAngsurTertunggak, _ := convertToPostgreSQLDate(sampleData.TgAngsurTertunggak)
