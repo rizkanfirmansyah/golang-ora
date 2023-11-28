@@ -224,13 +224,31 @@ func main() {
 		tgJTempoKontrak, _ := convertToPostgreSQLDate(sampleData.TgJTempoKontrak)
 		tgAngsur, _ := convertToPostgreSQLDate(sampleData.TgAngsur)
 		tgFixAng, _ := convertToPostgreSQLDate(sampleData.TgFixAng)
+		if tgRealis == "" {
+			tgRealis = "2023-11-27"
+			} 
+			if tgJTempoKontrak == "" {
+				tgJTempoKontrak = "2023-11-27"
+		} 
+		if tgAngsur == "" {
+			fmt.Println("TgAngsur is an empty string")
+		} 
+		if tgFixAng == "" {
+			fmt.Println("TgFixAng is an empty string")
+		}
 		tgLunas, _ := convertToPostgreSQLDate(sampleData.TgLunas.String)
 		if tgLunas == "" {
 			tgLunas = "2023-11-27"
 		}
 		tglJT, _ := convertToPostgreSQLDate(sampleData.TglJT)
 		historisNonBayar, _ := convertToPostgreSQLDate(sampleData.HistorisNonBayar)
+		if historisNonBayar == "" {
+			historisNonBayar = "2023-11-27"
+		}
 		tgAngsurTertunggak, _ := convertToPostgreSQLDate(sampleData.TgAngsurTertunggak)
+		if len(tgAngsurTertunggak) < 1 {
+			tgLunas = "2023-11-27"
+		}
 		tgRealisInputManual, _ := convertToPostgreSQLDate(sampleData.TgRealisInputManual)
 		_, error := dbpsql.Exec(`INSERT INTO "dataPKD".data_3("DATEPERIODE", "OFFICE_CODE", "COY_ID", "REGIONAL_ID", "NAMA_CABANG", "CUST_ID", "CONTRACT_NO", "NAMA", "TANGGAL_LAHIR", "UMUR", "ALAMAT_KTP", "ALAMAT_TAGIH", "NO_FIX_PHONE", "NO_HANDPHONE", "ALAMAT_EMERGENCY", "NO_FIX_PHONE_EMERGENCY", "NO_HP_EMERGENCY", "ALAMAT_OFFICE", "NO_TELP_OFFICE", "NO_ZIP_CODE", "SUB_ZIP_CODE", "NAMA_KELURAHAN", "NAMA_KECAMATAN", "NAMA_KABUPATEN", "NAMA_PROVINSI", "JENIS", "TOP", "SUKUBUNGA", "TG_REALIS", "TG_JTEMPO_KONTRAK", "TG_ANGSUR", "TG_FIXANG", "PEKERJAAN", "KTP", "NAMA_SURVEYOR", "NAMA_KOLEKTOR", "NOMINAL_GROSS", "ADMIN", "ASURANSI", "NOMINAL_PENCAIRAN_NETT", "ANGSURAN_PER_BULAN", "ANG_POKOK", "ANG_BUNGA", "BYR_POKOK", "BYR_BUNGA", "SLD_POKOK", "SLD_BUNGA", "STATUS_KONTRAK", "TGLUNAS", "STATUS_ORDER", "JENIS_OBJ", "MERK_OBJ", "TYPE_OBJ", "NO_MESIN", "NO_RANGKA", "TAHUN", "WARNA", "NO_POLISI", "NO_BPKB", "NAMA_BPKB", "HARGA_PASAR_KENDARAAN", "PERSENTASE_PLAFON", "ANGS_TERAKHIR_BAYAR_KE", "ANGS_SHRNYA_BLN_INI", "JML_ANGS_TERTUNGGAK", "OD_HARI_INI", "KOL_HARI_INI", "CYCLE_HARI_INI", "OVER_JT_HARI_INI", "STATUS_NPL_HARI_INI", "STATUS_CNPL_HARI_INI", "AMBC_DENDA", "AMBC_POKOK", "AMBC_BUNGA", "TOTAL_KEWAJIBAN", "AC_DENDA", "AC_POKOK", "AC_BUNGA", "TOTAL_AC", "OD_AKHIR_BULAN", "KOL_AKHIR_BULAN", "CYCLE_AKHIR_BULAN", "OVER_JT_PER_AKHIR_BLN", "STS_NPL_CLSNG_AKHR_BLN", "STS_CNPL_CLSNG_AKHR_BLN", "OD_AWAL_BULAN", "KOL_AWAL_BULAN", "CYCLE_AWAL_BULAN", "OVER_JT_PER_AWAL_BULAN", "STATUS_NPL_AWAL_BULAN", "STATUS_CNPL_AWAL_BULAN", "TAHUN_PMK", "BULAN_REALISASI", "TAHUN_PMK_BULAN_REALISASI", "TGL_JT", "HISTORIS_NON_BAYAR", "STATUS", "OUTSTANDING_PRICIPAL", "TG_ANGSUR_TERTUNGGAK", "TG_REALIS_INPUT_MANUAL", "TYPE_ANGSURAN", "CREATED_BY", "CREATED_TIMESTAMP", "BYR_DENDA", "SLD_DENDA", "SOURCE_ORDER", "PRDMONTH")
 										VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $50, $51, $52, $53, $54, $55, $56, $57, $58, $59, $60, $61, $62, $63, $64, $65, $66, $67, $68, $69, $70, $71, $72, $73, $74, $75, $76, $77, $78, $79, $80, $81, $82, $83, $84, $85, $86, $87, $88, $89, $90, $91, $92, $93, $94, $95, $96, $97, $98, $99, $100, $101, $102, $103, $104, $105, $106, $107);`, datePeriode, sampleData.OfficeCode, sampleData.CoyID, sampleData.RegionalID, sampleData.NamaCabang,
